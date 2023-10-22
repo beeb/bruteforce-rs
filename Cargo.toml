@@ -1,6 +1,4 @@
 [workspace]
+resolver = "2"
 
-members = [
-    "bruteforce",
-    "bruteforce-macros"
-]
+members = ["bruteforce", "bruteforce-macros"]

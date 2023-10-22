@@ -1,7 +1,7 @@
 //! This is the documentation for the no-std compatible `bruteforce` crate
 
 #![crate_name = "bruteforce"]
-#![feature(test, generators, proc_macro_hygiene)]
+#![feature(test, proc_macro_hygiene)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(not(feature = "std"))]
@@ -12,10 +12,6 @@ extern crate bruteforce_macros;
 
 pub mod charset;
 
-#[cfg(feature = "generators")]
-use std::ops::{Generator, GeneratorState};
-#[cfg(feature = "generators")]
-use std::pin::Pin;
 use std::prelude::v1::*;
 
 use charset::Charset;
@@ -171,15 +167,5 @@ impl<'a> Iterator for BruteForce<'a> {
 
     fn next(&mut self) -> Option<String> {
         Some(self.raw_next().to_string())
-    }
-}
-
-#[cfg(feature = "generators")]
-impl Generator for Pin<&mut BruteForce<'_>> {
-    type Yield = String;
-    type Return = ();
-
-    fn resume(self: Pin<&mut Self>) -> GeneratorState<Self::Yield, Self::Return> {
-        GeneratorState::Yielded(self.get_mut().raw_next().to_string())
     }
 }
